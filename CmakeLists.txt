@@ -1,0 +1,9 @@
+cmake_minimum_required(VERSION 3.2)
+project(ImGui)
+
+file(GLOB_RECURSE IMGUI_S RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.cpp)
+file(GLOB_RECURSE IMGUI_H RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.h)
+
+add_library(${PROJECT_NAME} SHARED ${IMGUI_S} ${IMGUI_H})
+
+install(FILES ${IMGUI_H} DESTINATION include)
