@@ -30,4 +30,8 @@ set(IMGUI_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}include)
 
 add_library(${PROJECT_NAME} STATIC ${IMGUI_S} ${IMGUI_H})
 
+target_link_libraries(${PROJECT_NAME}
+                        glad
+                        glfw ${GLFW_LIBRARIES})
+
 install(FILES ${IMGUI_INCLUDE} DESTINATION ${IMGUI_INCLUDE_DIR})
