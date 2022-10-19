@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
-project(ImGui)
+project(imgui)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -7,8 +7,8 @@ set(IMGUI_H
     ${CMAKE_CURRENT_SOURCE_DIR} imgui.h
     ${CMAKE_CURRENT_SOURCE_DIR} imgui_internal.h
 
-    # ${CMAKE_CURRENT_SOURCE_DIR} backends/imgui_impl_opengl3.h
-    # ${CMAKE_CURRENT_SOURCE_DIR} backends/imgui_impl_glfw.h
+    ${CMAKE_CURRENT_SOURCE_DIR} backends/imgui_impl_opengl3.h
+    ${CMAKE_CURRENT_SOURCE_DIR} backends/imgui_impl_glfw.h
     )
 
 set(IMGUI_S
@@ -17,8 +17,8 @@ set(IMGUI_S
     ${CMAKE_CURRENT_SOURCE_DIR} imgui_tables.cpp
     ${CMAKE_CURRENT_SOURCE_DIR} imgui_draw.cpp
 
-    # ${CMAKE_CURRENT_SOURCE_DIR} backends/imgui_impl_opengl3.cpp
-    # ${CMAKE_CURRENT_SOURCE_DIR} backends/imgui_impl_glfw.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR} backends/imgui_impl_opengl3.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR} backends/imgui_impl_glfw.cpp
     )
 
 set(IMGUI_INCLUDE
@@ -30,8 +30,8 @@ set(IMGUI_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}include)
 
 add_library(${PROJECT_NAME} STATIC ${IMGUI_S} ${IMGUI_H})
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME} PRIVATE
                         glad
                         glfw ${GLFW_LIBRARIES})
 
-install(FILES ${IMGUI_INCLUDE} DESTINATION ${IMGUI_INCLUDE_DIR})
+# install(FILES ${IMGUI_INCLUDE} DESTINATION ${IMGUI_INCLUDE_DIR})
