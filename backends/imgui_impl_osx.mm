@@ -1,6 +1,7 @@
 // dear imgui: Platform Backend for OSX / Cocoa
 // This needs to be used along with a Renderer (e.g. OpenGL2, OpenGL3, Vulkan, Metal..)
-// [ALPHA] Early backend, not well tested. If you want a portable application, prefer using the GLFW or SDL platform Backends on Mac.
+// - Not well tested. If you want a portable application, prefer using the GLFW or SDL platform Backends on Mac.
+// - Requires linking with the GameController framework ("-framework GameController").
 
 // Implemented features:
 //  [X] Platform: Mouse cursor shape and visibility. Disable with 'io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange'.
@@ -25,10 +26,16 @@
 // CHANGELOG
 // (minor and older changes stripped away, please see git history for details)
 <<<<<<< HEAD
+<<<<<<< HEAD
 //  2022-10-06: Fixed mouse inputs on flipped views.
 =======
 //  2022-XX-XX: Added support for multiple windows via the ImGuiPlatformIO interface.
 >>>>>>> cb04326b460b38e4db5b9638be70b315ec23ca0f
+=======
+//  2022-XX-XX: Added support for multiple windows via the ImGuiPlatformIO interface.
+//  2022-11-02: Fixed mouse coordinates before clicking the host window.
+//  2022-10-06: Fixed mouse inputs on flipped views.
+>>>>>>> 1bbb5d3651595b7d8fceb1738639e9676dab6bfb
 //  2022-09-26: Inputs: Renamed ImGuiKey_ModXXX introduced in 1.87 to ImGuiMod_XXX (old names still supported).
 //  2022-05-03: Inputs: Removed ImGui_ImplOSX_HandleEvent() from backend API in favor of backend automatically handling event capture.
 //  2022-04-27: Misc: Store backend data in a per-context struct, allowing to use this backend with multiple contexts.
@@ -645,6 +652,7 @@ static bool ImGui_ImplOSX_HandleEvent(NSEvent* event, NSView* view)
     if (event.type == NSEventTypeMouseMoved || event.type == NSEventTypeLeftMouseDragged || event.type == NSEventTypeRightMouseDragged || event.type == NSEventTypeOtherMouseDragged)
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         NSPoint mousePoint = event.locationInWindow;
         mousePoint = [view convertPoint:mousePoint fromView:nil];
         if ([view isFlipped])
@@ -652,6 +660,8 @@ static bool ImGui_ImplOSX_HandleEvent(NSEvent* event, NSView* view)
         else
             mousePoint = NSMakePoint(mousePoint.x, view.bounds.size.height - mousePoint.y);
 =======
+=======
+>>>>>>> 1bbb5d3651595b7d8fceb1738639e9676dab6bfb
         NSPoint mousePoint;
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
@@ -661,12 +671,19 @@ static bool ImGui_ImplOSX_HandleEvent(NSEvent* event, NSView* view)
         else
         {
             mousePoint = event.locationInWindow;
+            if (event.window == nil)
+                mousePoint = [[view window] convertPointFromScreen:mousePoint];
             mousePoint = [view convertPoint:mousePoint fromView:nil]; // Convert to local coordinates of view
-            CGSize size = view.bounds.size;
-            mousePoint.y = size.height - mousePoint.y;
+            if ([view isFlipped])
+                mousePoint = NSMakePoint(mousePoint.x, mousePoint.y);
+            else
+                mousePoint = NSMakePoint(mousePoint.x, view.bounds.size.height - mousePoint.y);
         }
 
+<<<<<<< HEAD
 >>>>>>> cb04326b460b38e4db5b9638be70b315ec23ca0f
+=======
+>>>>>>> 1bbb5d3651595b7d8fceb1738639e9676dab6bfb
         io.AddMousePosEvent((float)mousePoint.x, (float)mousePoint.y);
         return io.WantCaptureMouse;
     }
